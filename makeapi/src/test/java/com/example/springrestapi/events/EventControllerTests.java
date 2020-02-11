@@ -56,7 +56,32 @@ public class EventControllerTests {
                 .andExpect(header().exists(HttpHeaders.LOCATION))
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE));
         //andExpect 메서드를 통해 어떤 응답이 올지 체크하는 로직을 쉽게 작성할 수 있음
-        //HttpHeader 에 등록된 상수들을 통해 type-safe 한 코드를 작성할 수 있음
+        //HttpHeader 에 등록된 상수들을 통해 type-safe 한 코드를 작성할 수 있
     }
 
+    @Test
+    public void createEvent_Bad_Request() throws Exception{
+        Event event = Event.builder()
+                .name("Spring")
+                .description("REST API Development")
+                .beginEnrollmentDateTime(LocalDateTime.of(2010,11,23,14,23))
+                .closeEnrollmentDateTime(LocalDateTime.of(2018,11,30,14,23))
+                .beginEventDateTime(LocalDateTime.of(2018,12,5,14,30))
+                .endEventDateTime(LocalDateTime.of(2018,12,6,14,30))
+                .basePrice(100)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("D start up Factory")
+                .free(true)
+                .offline(false)
+                .eventStatus(EventStatus.PUBLISHED)
+                .build();
+
+        mockMvc.perform(post("/api/events")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(event))) // json으로 직렬화하여 http 메세지에 추가
+                .andDo(print())// 테스트 콘솔창에 req, res 를 볼 수 있음
+                .andExpect(status().isBadRequest());
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.springrestapi.events;
 
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,19 @@ public class EventController {
     @Autowired
     EventRepository eventRepository;
 
-    @PostMapping//post 요청으로 처리
-    public ResponseEntity createEvent(@RequestBody Event event){//body 에 있는 정보가 자동적으로 Event 객체로 역직렬화되어 매핑된다.
+    @Autowired
+    ModelMapper modelMapper;
+
+//    @PostMapping//post 요청으로 처리
+//    public ResponseEntity createEvent(@RequestBody Event event){//body 에 있는 정보가 자동적으로 Event 객체로 역직렬화되어 매핑된다.
+//        Event newEvent = this.eventRepository.save(event);
+//        URI createURI = linkTo(EventController.class).slash(newEvent.getId()).toUri();
+//        return ResponseEntity.created(createURI).body(newEvent);
+//    }
+
+    @PostMapping
+    public ResponseEntity createEvent(@RequestBody EventDto eventDto){
+        Event event = modelMapper.map(eventDto, Event.class);
         Event newEvent = this.eventRepository.save(event);
         URI createURI = linkTo(EventController.class).slash(newEvent.getId()).toUri();
         return ResponseEntity.created(createURI).body(newEvent);
