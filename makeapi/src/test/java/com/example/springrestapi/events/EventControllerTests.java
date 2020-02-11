@@ -1,5 +1,6 @@
 package com.example.springrestapi.events;
 
+import com.example.springrestapi.common.TestDescription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -83,5 +84,38 @@ public class EventControllerTests {
                 .content(objectMapper.writeValueAsString(event))) // json으로 직렬화하여 http 메세지에 추가
                 .andDo(print())// 테스트 콘솔창에 req, res 를 볼 수 있음
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @TestDescription("입력값이 비었을 때")
+    public void createEvent_Bad_Request_Empty_Input() throws Exception{
+        EventDto eventDto = EventDto.builder().build();
+
+        this.mockMvc.perform(post("/api/events")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(this.objectMapper.writeValueAsString(eventDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @TestDescription("잘못된 입력값이 입력되었을 때")
+    public void createEvent_Bad_Request_Wrong_Input() throws Exception{
+        EventDto eventDto = EventDto.builder()
+                .name("Spring")
+                .description("REST API Development")
+                .beginEnrollmentDateTime(LocalDateTime.of(2010,11,23,14,23))
+                .closeEnrollmentDateTime(LocalDateTime.of(2018,11,21,14,23))
+                .beginEventDateTime(LocalDateTime.of(2018,12,24,14,30))
+                .endEventDateTime(LocalDateTime.of(2018,12,6,14,30))
+                .basePrice(10000)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("D start up Factory")
+                .build();
+
+        this.mockMvc.perform(post("/api/events")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(this.objectMapper.writeValueAsString(eventDto)))
+            .andExpect(status().isBadRequest());
     }
 }
