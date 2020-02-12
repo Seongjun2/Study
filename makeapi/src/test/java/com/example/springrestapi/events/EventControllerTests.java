@@ -61,6 +61,7 @@ public class EventControllerTests {
     }
 
     @Test
+    @TestDescription("입력받을 수 없는 값을 사용할 때")
     public void createEvent_Bad_Request() throws Exception{
         Event event = Event.builder()
                 .name("Spring")
@@ -113,9 +114,13 @@ public class EventControllerTests {
                 .location("D start up Factory")
                 .build();
 
-        this.mockMvc.perform(post("/api/events")
+        this.mockMvc.perform(post("/api/events")//perform : DispatcherServlet 에 요청을 의
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(this.objectMapper.writeValueAsString(eventDto)))
-            .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].objectName").exists())
+                .andExpect(jsonPath("$[0].field").exists())
+                .andExpect(jsonPath("$[0].defaultMessage").exists())
+                .andExpect(jsonPath("$[0].rejectValue").exists());
     }
 }
