@@ -32,6 +32,7 @@ public class EventControllerTests {
     ObjectMapper objectMapper;
 
     @Test
+    @TestDescription("올바른 입력")
     public void createEvent() throws Exception{
         Event event = Event.builder()
                 .name("Spring")
@@ -55,10 +56,17 @@ public class EventControllerTests {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("id").exists())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE));
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("free").value(false))
+                .andExpect(jsonPath("offline").value(true))
+                .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT.name()))
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.query-events").exists())
+                .andExpect(jsonPath("_links.update-events").exists());
         //andExpect 메서드를 통해 어떤 응답이 올지 체크하는 로직을 쉽게 작성할 수 있음
         //HttpHeader 에 등록된 상수들을 통해 type-safe 한 코드를 작성할 수 있
     }
+
 
     @Test
     @TestDescription("입력받을 수 없는 값을 사용할 때")
