@@ -2,7 +2,7 @@ package DAO;
 
 import java.sql.*;
 
-public abstract class UserDao {
+public class UserDao {
 
     Connection c;
     private ConnectionMaker connectionMaker;
@@ -10,7 +10,6 @@ public abstract class UserDao {
     public UserDao(ConnectionMaker connectionMaker){
         this.connectionMaker = connectionMaker;
     }
-    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
     public void add(User user) throws ClassNotFoundException, SQLException {
         c = connectionMaker.makeConnection();
