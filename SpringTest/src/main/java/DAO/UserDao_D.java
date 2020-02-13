@@ -1,14 +1,18 @@
 package DAO;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public abstract class UserDao {
+public abstract class UserDao_D {
 
-    Connection c;
     private ConnectionMaker connectionMaker;
 
-    public UserDao(ConnectionMaker connectionMaker){
-        this.connectionMaker = connectionMaker;
+    Connection c;
+
+    public UserDao_D(){
+        connectionMaker = new DConnectionMaker();
     }
     public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
