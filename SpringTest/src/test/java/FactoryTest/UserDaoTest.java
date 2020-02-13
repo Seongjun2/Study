@@ -25,6 +25,13 @@ public class UserDaoTest {
 }
 
 /*
+ 애플리케이션 컨텍스트를 사용했을 때 얻을 수 있는 장점
+ - 클라이언트는 구체적인 팩토리를 알 필요가 없음
+ - 애플리케이션 컨텍스트는 종합 IoC 서비스를 제공해준다.
+ - 애플리케이션 컨텍스트는 빈을 검색하는 다양한 방법을 제공
 
+ UserDao dao1 = context.getBean("userDao","UserDao.class);
+ UserDao dao2 = context.getBean("userDao","UserDao.class);
+ dao1, dao2 는 같은 주소값을 가짐 -> 싱글톤
 
  */
