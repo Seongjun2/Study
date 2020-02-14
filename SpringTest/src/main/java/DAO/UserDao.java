@@ -9,9 +9,11 @@ public class UserDao {
     private ConnectionMaker connectionMaker;
     private DataSource dataSource;
 
+
     public UserDao(ConnectionMaker connectionMaker){
         this.connectionMaker = connectionMaker;
     }
+
     public UserDao(){
 
     }

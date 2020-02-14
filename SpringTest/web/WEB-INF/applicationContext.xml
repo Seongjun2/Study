@@ -5,9 +5,9 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="connectionMaker" class="DAO.DConnectionMaker"/>
-    <bean id="userDao" class="DAO.UserDao">
-        <property name="connectionMaker" ref="connectionMaker"/>
-    </bean>
+<!--    <bean id="userDao" class="DAO.UserDao">-->
+<!--        <property name="connectionMaker" ref="connectionMaker"/>-->
+<!--    </bean>-->
 
     <bean id="dataSource" class = "org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value ="com.mysql.jdbc.Driver"/>
