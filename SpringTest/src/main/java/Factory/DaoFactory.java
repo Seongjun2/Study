@@ -6,6 +6,9 @@ import DAO.UserDao;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
+
+import javax.sql.DataSource;
 
 @Configuration // 애플리케이션 컨텍스트 또는 빈 팩토리가 사용할 설정정보라는 표시
 
@@ -26,11 +29,21 @@ public class DaoFactory {
 //        return new UserDao(new DConnectionMaker());
 //        return new UserDao(connectionMaker());
         UserDao userDao = new UserDao();
-        userDao.setConnectionMaker(connectionMaker());
-
+//        userDao.setConnectionMaker(connectionMaker());
+        userDao.setDataSource(dataSource());
         return userDao;
     }
 
+    public DataSource dataSource(){
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+
+        dataSource.setDriverClass(com.mysql.jdbc.Driver.class);
+        dataSource.setUrl("jdbc:mysql://localhost/springbook");
+        dataSource.setUsername("spring");
+        dataSource.setPassword("book");
+        //code 를 통한 주입 정보. xml 에는 bean 으로 주입할 수 있음.
+        return dataSource;
+    }
 
     /*
     public AccountDao accountDao(){
