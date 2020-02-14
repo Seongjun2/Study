@@ -10,6 +10,9 @@ public class UserDao {
     public UserDao(ConnectionMaker connectionMaker){
         this.connectionMaker = connectionMaker;
     }
+    public UserDao(){
+
+    }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
         c = connectionMaker.makeConnection();
@@ -44,4 +47,9 @@ public class UserDao {
 
         return user;
     }
+
+    public void setConnectionMaker(ConnectionMaker connectionMaker){
+        this.connectionMaker = connectionMaker;
+    }
+
 }

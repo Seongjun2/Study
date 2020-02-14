@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="connectionMaker" class="DAO.DConnectionMaker"/>
+    <bean id="userDao" class="DAO.UserDao">
+        <property name="connectionMaker" ref="connectionMaker"/>
+    </bean>
 </beans>
+
+<!--
+    property : 의존 오브젝트와 관계를 정의함.
+    property 는 name 과 ref 두 개의 애트리뷰트를 갖는다.
+    name 은 프로퍼티 이름
+    ref 는 수정자 메소드를 통해 주입해줄 오브젝트 빈 이름
+
+    ex) userDao.setConnectionMaker(connectionMaker());
+    <property name="connectionMaker" ref="connectionMaker"/>
+
+    setConnectionMaker -> name="connectionMaker"
+    connectionMaker() -> ref="connectionMaker
+
+-->
