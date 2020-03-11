@@ -17,49 +17,64 @@ public class Question1 {
 
         for (int i = 1; i < s.length()/2 +1; i++) {
 
-//            if(s.length()%i != 0) continue;//나누어 떨어지지 않으면.
-
             String prev = "";
             int cnt = 1;
             StringBuilder sb = new StringBuilder();
             boolean check = false;
 
-            for (int j = 0; j < s.length(); j= j+i) {
-                if(j+i >= s.length()){//범위를 넘어가면
-                    sb.append(s.substring(j-i , s.length()));
+            for (int j = 0; j < s.length(); j=j+i) {
+
+                if(j+i > s.length()){
+                    String tail = s.substring(j,s.length());
+                    if(prev.equals(tail)){
+                        sb.append((cnt+1)+prev);
+                    }
+                    else{
+                        if(cnt == 1){
+                            sb.append(prev);
+                        }
+                        else{
+                            sb.append(cnt + prev);
+                        }
+                        sb.append(tail);
+                    }
                     check = true;
                     break;
                 }
                 if(j == 0){
                     prev = s.substring(0,j+i);
+                    continue;
                 }
                 else{
-                    String ts = s.substring(j, j+i);
-                    if(prev.equals(ts)) cnt++;
-                    else{//이전과 같지 않다.
-                        if(cnt == 1){//한 번 나왔을 때,
+                    String ts = s.substring(j,j+i);
+                    if(ts.equals(prev)){// 같은 때,
+                        cnt++;
+                    }
+                    else{//다를 때,
+                        if(cnt == 1){
                             sb.append(prev);
-                            prev = ts;
                         }
-                        else{//한 번 이상 나왔을 때,
-                            sb.append(cnt+prev);
-                            prev = ts;
+                        else{
+                            sb.append(cnt + prev);
                             cnt = 1;
                         }
+                        prev = ts;
                     }
                 }
             }
-            if(check == false){
-                if(cnt == 1){//한 번 나왔을 때,
+
+            if(!check) {
+                if (cnt == 1) {
                     sb.append(prev);
-                }
-                else{//한 번 이상 나왔을 때,
-                    sb.append(cnt+prev);
+                } else {
+                    sb.append(cnt + prev);
                 }
             }
-            String sbResult = sb.toString();
-            answer = Math.min(sbResult.length(), answer);
 
+//            System.out.println(sb.toString());
+            int resultLength = sb.toString().length();
+
+            answer = Math.min(resultLength, answer);
         }
 
         return answer;
