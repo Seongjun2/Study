@@ -8,6 +8,8 @@ public class 등산로조성 {
     static int n;
     static int k;
     static int maxHeight = 0;
+    static int[] dr = {-1,0,1,0};
+    static int[] dc = {0,1,0,-1};
 
     public static void main(String[] args) {
         등산로조성 test = new 등산로조성();
@@ -41,9 +43,23 @@ public class 등산로조성 {
 
                 //최대치 일 때만 돌아.
                 if(height == maxHeight){
-
+                    dfs();
                 }
             }
+        }
+    }
+
+    private void dfs(boolean[][] visited, int row, int col, boolean cut) {
+
+        for (int i = 0; i < 4; i++) {
+
+            int nr = row + dr[i];
+            int nc = col + dc[i];
+
+            if(nr < 0 || nc < 0 || nr >= n || nc >= n) continue;
+            if(visited[nr][nc]) continue;
+            
+
         }
     }
 
