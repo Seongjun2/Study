@@ -8,6 +8,7 @@ public class 등산로조성 {
     static int n;
     static int k;
     static int maxHeight = 0;
+
     public static void main(String[] args) {
         등산로조성 test = new 등산로조성();
         Scanner sc = new Scanner(System.in);
@@ -25,13 +26,34 @@ public class 등산로조성 {
                     int height = sc.nextInt();
                     matrix[i][j] = height;
                     maxHeight = Math.max(height,maxHeight);
-                    test.solution();
+                }
+            }
+
+            test.solution();
+        }
+    }
+
+    private void solution() {
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int height = matrix[i][j];
+
+                //최대치 일 때만 돌아.
+                if(height == maxHeight){
+
                 }
             }
         }
     }
 
-    private void solution() {
+    class Position{
+        int row, col;
+
+        public Position(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
     }
 }
 
