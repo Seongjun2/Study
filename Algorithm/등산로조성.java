@@ -1,5 +1,6 @@
 package SWExpert;
 
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class 등산로조성 {
@@ -10,6 +11,7 @@ public class 등산로조성 {
     static int maxHeight = 0;
     static int[] dr = {-1,0,1,0};
     static int[] dc = {0,1,0,-1};
+    static int result;
 
     public static void main(String[] args) {
         등산로조성 test = new 등산로조성();
@@ -20,6 +22,9 @@ public class 등산로조성 {
         while(tc-- > 0) {
             n = sc.nextInt();
             k = sc.nextInt();
+
+            result = 1;
+            maxHeight = 0;
 
             matrix = new int[n][n];
 
@@ -32,10 +37,13 @@ public class 등산로조성 {
             }
 
             test.solution();
+            System.out.println(result);
         }
     }
 
     private void solution() {
+
+        boolean[][] visited = new boolean[n][n];
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -43,13 +51,15 @@ public class 등산로조성 {
 
                 //최대치 일 때만 돌아.
                 if(height == maxHeight){
-                    dfs();
+                    visited[i][j] = true;
+                    dfs(visited, i, j, false, 1);
+                    visited[i][j] = false;
                 }
             }
         }
     }
 
-    private void dfs(boolean[][] visited, int row, int col, boolean cut) {
+    private void dfs(boolean[][] visited, int row, int col, boolean cut, int length) {
 
         for (int i = 0; i < 4; i++) {
 
@@ -58,9 +68,31 @@ public class 등산로조성 {
 
             if(nr < 0 || nc < 0 || nr >= n || nc >= n) continue;
             if(visited[nr][nc]) continue;
-            
 
+            int now = matrix[row][col];
+            int next = matrix[nr][nc];
+
+            if(now>next){//갈 수 있음.
+                visited[nr][nc] = true;
+                dfs(visited, nr, nc, false, length+1);
+                visited[nr][nc] = false;
+            }
+            else{//갈 수 없음.
+                if(now+k-1 <= next){//깎을 수 있음.
+                    for (int j = 1; j <=k ; j++) {
+                        if(next-j < now){
+                            matrix[nr][nc] = next-j;
+                            visited[nr][nc] = true;
+                            dfs(visited, nr, nc, true, length+1);
+                            visited[nr][nc] = false;
+                            matrix[nr][nc] = next+j;
+                        }
+                    }
+                }
+            }
         }
+        result = Math.max(result, length);
+
     }
 
     class Position{
@@ -74,6 +106,22 @@ public class 등산로조성 {
 }
 
 /*
+
+1
+5 1
+9 3 2 3 2
+6 3 1 7 5
+3 4 8 9 9
+2 3 7 7 7
+7 6 5 5 8
+
+1
+3 2
+1 2 1
+2 1 2
+1 2 1
+5 2
+
 10
 5 1
 9 3 2 3 2
