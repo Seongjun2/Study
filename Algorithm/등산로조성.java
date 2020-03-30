@@ -18,7 +18,7 @@ public class 등산로조성 {
         Scanner sc = new Scanner(System.in);
 
         int tc = sc.nextInt();
-
+        int num = 1;
         while(tc-- > 0) {
             n = sc.nextInt();
             k = sc.nextInt();
@@ -37,7 +37,7 @@ public class 등산로조성 {
             }
 
             test.solution();
-            System.out.println(result);
+            System.out.println("#"+ num++ + " " +result);
         }
     }
 
@@ -51,15 +51,16 @@ public class 등산로조성 {
 
                 //최대치 일 때만 돌아.
                 if(height == maxHeight){
+//                    System.out.println(i + "," + j);
                     visited[i][j] = true;
-                    dfs(visited, i, j, false, 1);
+                    dfs(visited, i, j, false, 1, String.valueOf(matrix[i][j]));
                     visited[i][j] = false;
                 }
             }
         }
     }
 
-    private void dfs(boolean[][] visited, int row, int col, boolean cut, int length) {
+    private void dfs(boolean[][] visited, int row, int col, boolean cut, int length, String p) {
 
         for (int i = 0; i < 4; i++) {
 
@@ -74,25 +75,36 @@ public class 등산로조성 {
 
             if(now>next){//갈 수 있음.
                 visited[nr][nc] = true;
-                dfs(visited, nr, nc, false, length+1);
+                String addP = String.valueOf(matrix[nr][nc]);
+                p += addP;
+                dfs(visited, nr, nc, cut, length+1, p);
+                p =p.substring(0,p.length()-addP.length());
                 visited[nr][nc] = false;
             }
             else{//갈 수 없음.
-                if(now+k-1 <= next){//깎을 수 있음.
+                if(cut) continue;
+//                if(now+k-1 <= next-k){//깎을 수 있음.
                     for (int j = 1; j <=k ; j++) {
+                        if(next-j <= 0) break;
                         if(next-j < now){
-                            matrix[nr][nc] = next-j;
+                            matrix[nr][nc] -= j;
                             visited[nr][nc] = true;
-                            dfs(visited, nr, nc, true, length+1);
+                            String addP = String.valueOf(matrix[nr][nc]);
+                            p += addP;
+                            dfs(visited, nr, nc, true, length+1, p);
+                            p = p.substring(0,p.length()-addP.length());
                             visited[nr][nc] = false;
-                            matrix[nr][nc] = next+j;
+                            matrix[nr][nc] += j;
+                            break;
                         }
                     }
-                }
+//                }
             }
         }
         result = Math.max(result, length);
+//        System.out.println(p + " " + length);
 
+//        System.out.println();
     }
 
     class Position{
