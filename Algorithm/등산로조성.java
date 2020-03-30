@@ -85,7 +85,7 @@ public class 등산로조성 {
                 if(cut) continue;
 //                if(now+k-1 <= next-k){//깎을 수 있음.
                     for (int j = 1; j <=k ; j++) {
-                        if(next-j <= 0) break;
+                        if(next-j < 0) break;
                         if(next-j < now){
                             matrix[nr][nc] -= j;
                             visited[nr][nc] = true;
@@ -132,7 +132,6 @@ public class 등산로조성 {
 1 2 1
 2 1 2
 1 2 1
-5 2
 
 10
 5 1
