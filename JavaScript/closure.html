@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+  </head>
+  <body>
+    <button id = "increase"> + </button>
+    <button id = "decrease"> - </button>
+    <p id = "count"> 0 </p>
+  </body>
+
+  <script>
+    var increaseButton = document.getElementById("increase");
+    var decreaseButton = document.getElementById("decrease");
+    var count = document.getElementById("count");
+
+    function makeCounter(predicate){
+      var count = 0;
+
+      return function(){
+        count = predicate();
+        return count;
+      }
+
+      var increase = (function () {
+
+        return function () {
+          return ++count;
+        };
+      }());
+
+      var decrease = (function () {
+
+        return function () {
+           return --count;
+        }
+      }());
+
+    }
+    const increaser = makeCounter(increase);
+    const decreaser = makeCounter(decrease);
+
+    increaseButton.onclick = function () {
+      count.innerHTML = increaser();
+    }
+
+    decreaseButton.onclick = function () {
+      count.innerHTML = decreaser();
+    }
+
+
+  </script>
+</html>
